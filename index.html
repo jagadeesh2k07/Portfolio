@@ -3,67 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Professional Portfolio</title>
+    <title>Jagadeesh | Software Engineer</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
-    <!-- Header & Navigation Bar -->
     <header>
-        <nav>
-            <div class="logo">MyPortfolio</div>
-            <ul>
+        <nav class="navbar">
+            <div class="logo">K JAGADEESH</div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
-                <li><a href="#about">About Me</a></li>
+                <li><a href="#about">About</a></li>
                 <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Hero / Home Section -->
-    <section id="home">
-        <h1>Hi, I'm a Full Stack Developer Intern</h1>
-        <p>Welcome to my professional space where code meets creativity.</p>
+    <section id="home" class="hero-section">
+        <div class="hero-container">
+            <div class="hero-text">
+                <span class="subtitle">Student</span>
+                <h1>Building clean, efficient digital solutions.</h1>
+                <p>Computer Science student at JNTU Kakinada and Full Stack Developer Intern specialized in structural Java architectures and responsive web engineering.</p>
+                <div class="hero-actions">
+                    <a href="#projects" class="btn btn-primary">View Projects</a>
+                    <a href="assets/resume.pdf" class="btn btn-secondary" download><i class="fas fa-download"></i> Resume</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="image-border-box">
+                    <img src="me.jpeg" alt="Jagadeesh" class="profile-img">
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- About Me Section -->
-    <section id="about">
-        <h2>About Me</h2>
-        <p>I am a computer science student passionate about software development, object-oriented principles, and building responsive web applications.</p>
+    <section id="about" class="section-container">
+        <h2 class="section-heading">About Me</h2>
+        <div class="about-grid">
+            <div class="about-bio">
+                <p>I am a focused Computer Science & Engineering student at <strong>JNTU Kakinada</strong> with a strong foundation in object-oriented programming, data structures, and interactive web development.</p>
+                <p>Currently logic-building and building local hosting environments as a Full Stack Developer Intern at <strong>ApexPlanet Software Pvt. Ltd.</strong>, translating programmatic theories into practical applications.</p>
+            </div>
+            <div class="about-stats">
+                <div class="stat-card">
+                    <h3>8.2</h3>
+                    <p>JNTUK CGPA</p>
+                </div>
+                <div class="stat-card">
+                    <h3>60 Days</h3>
+                    <p>Internship Residency</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- Skills Section -->
-    <section id="skills">
-        <h2>Technical Skills</h2>
-        <ul>
-            <li>HTML5 & CSS3</li>
-            <li>JavaScript (ES6+)</li>
-            <li>Java & OOP Principles</li>
-            <li>PHP & MySQL Basics</li>
-        </ul>
+    <section id="skills" class="section-container bg-alt">
+        <h2 class="section-heading">Technical Stack</h2>
+        <div class="skills-display">
+            <div class="skills-column">
+                <h3>Core Logic</h3>
+                <ul>
+                    <li>Java Standard Edition</li>
+                    <li>Self-Balancing AVL Trees</li>
+                    <li>Adjacency Matrices</li>
+                </ul>
+            </div>
+            <div class="skills-column">
+                <h3>Web Frontend</h3>
+                <ul>
+                    <li>Semantic HTML5</li>
+                    <li>Modern Layout CSS3</li>
+                    <li>Functional JavaScript</li>
+                </ul>
+            </div>
+            <div class="skills-column">
+                <h3>Backend & Tools</h3>
+                <ul>
+                    <li>PHP Scripting Engine</li>
+                    <li>MySQL Relational DB</li>
+                    <li>Git / GitHub Version Control</li>
+                </ul>
+            </div>
+        </div>
     </section>
 
-    <!-- Contact Section (Form Formatting) -->
-    <section id="contact">
-        <h2>Get In Touch</h2>
-        <form id="contactForm">
-            <label for="name">Name:</label>
-            <input type="text" id="name" required><br><br>
+    <section id="projects" class="section-container">
+        <h2 class="section-heading">Selected Projects</h2>
+        <div class="filter-bar">
+            <button onclick="filterProjects('all')" class="filter-link active">All</button>
+            <button onclick="filterProjects('web')" class="filter-link">Web Applications</button>
+            <button onclick="filterProjects('core')" class="filter-link">Java Modules</button>
+        </div>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" required><br><br>
+        <div class="projects-layout">
+            <div class="project-item web">
+                <span class="project-type">Web Frontend</span>
+                <h3>Personal Portfolio Framework</h3>
+                <p>A minimalist personal portfolio platform engineered with strict, responsive layouts and local deployment version controls for ApexPlanet Task 1.</p>
+                <a href="https://github.com/jagadeesh2k07/jagadeesh2k07" target="_blank" class="project-link">Source Code <i class="fas fa-arrow-right"></i></a>
+            </div>
 
-            <label for="message">Message:</label><br>
-            <textarea id="message" rows="4" required></textarea><br><br>
+            <div class="project-item web">
+                <span class="project-type">Cloud-Deployed Prototype</span>
+                <h3>Chemical Spectrometry Framework</h3>
+                <p>An advanced analytical web application engineered to simulate Beer-Lambert law calculations, parsing relative liquid absorbance parameters and heavy metal contamination metrics via native optical sensors.</p>
+                <div style="margin-top: 14px; display: flex; gap: 12px;">
+                    <a href="https://github.com/jagadeesh2k07/jagadeesh2k07-P1" target="_blank" class="project-link" style="margin: 0;"><i class="fab fa-github"></i> Repository</a>
+                    <a href="https://chemical-water-detection-system-760355251737.asia-southeast1.run.app" target="_blank" class="project-link" style="margin: 0; color: #ffffff;"><i class="fas fa-external-link-alt"></i> Live App</a>
+                </div>
+            </div>
 
-            <button type="submit">Send Message</button>
-        </form>
+            <div class="project-item core">
+                <span class="project-type">Data Structures</span>
+                <h3>Java Balance-Engine Toolkit</h3>
+                <p>A back-end algorithmic architecture built to process nested datasets, node rotation sequences, and complex matrix mappings.</p>
+                <a href="#" class="project-link">Repository <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
     </section>
 
-    <!-- Footer -->
+    <section id="education" class="section-container bg-alt">
+        <h2 class="section-heading">Education</h2>
+        <div class="table-wrapper">
+            <table class="minimal-table">
+                <thead>
+                    <tr>
+                        <th>Degree / Program</th>
+                        <th>Institution</th>
+                        <th>Affiliation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>B.Tech (Computer Science & Engineering)</td>
+                        <td>University College of Engineering Kakinada</td>
+                        <td>JNTU Kakinada</td>
+                    </tr>
+                    <tr>
+                        <td>Intermediate (10 + 2)</td>
+                        <td>Sasi Junior College</td>
+                        <td>Board of Intermediate (A.P)</td>
+                    </tr>
+                    <tr>
+                        <td>10th class</td>
+                        <td>Kendriya Vidyalaya (VSKP)</td>
+                        <td>CBSE</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="experience" class="section-container bg-alt">
+        <h2 class="section-heading">Professional Experience</h2>
+        <div class="experience-timeline">
+            <div class="timeline-item">
+                <div class="timeline-meta">
+                    <span class="timeline-date">Current Residency</span>
+                    <span class="timeline-company">ApexPlanet Software Pvt. Ltd.</span>
+                </div>
+                <div class="timeline-content">
+                    <h3>Full Stack Developer Intern</h3>
+                    <p>Building localized hosting environments, structuring semantic web architectures, and managing repository workflows for internal engineering tasks.</p>
+                    <ul class="timeline-bullets">
+                        <li>Engineered structural layouts with strict responsive UI design parameters.</li>
+                        <li>Configured local server logic pipelines using PHP backend engines.</li>
+                        <li>Managed codebase iterations through Git version control structures.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="connect" class="section-container">
+        <div class="connect-grid">
+            <div class="connect-text">
+                <h2 class="section-heading">Professional Networks</h2>
+                <p>I actively document my development milestones, write technical summaries, and network with fellow software engineers on LinkedIn. Let's connect to share insights and build collaborative projects.</p>
+                <a href="https://www.linkedin.com/in/k-jagadeesh-138670321/" target="_blank" class="premium-connect-btn">
+                    <i class="fab fa-linkedin-in"></i> View My Full Profile <i class="fas fa-arrow-right arrow-shift"></i>
+                </a>
+            </div>
+            <div class="connect-preview-box">
+                <div class="badge-header">
+                    <span class="circle-dot"></span> Verified Developer Blueprint
+                </div>
+                <h3>Jagadeesh</h3>
+                <p class="badge-title">Software Engineer & Student at JNTU Kakinada</p>
+                <div class="badge-footer">
+                    <span><i class="fas fa-link"></i> github.com/jagadeesh2k07</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container">
+        <h2 class="section-heading">Project Presentation</h2>
+        <div class="video-wrapper">
+            <video width="100%" controls poster="assets/video-thumbnail.png">
+                <source src="assets/task1-presentation.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </section>
+
+    <section id="contact" class="section-container bg-alt">
+        <div class="contact-box">
+            <div class="contact-header">
+                <h2 class="section-heading">Get In Touch</h2>
+                <p>Have a question or looking to collaborate? Drop a message below.</p>
+            </div>
+            <form id="contactForm" class="minimal-form">
+                <div class="form-row">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                </div>
+                <div class="form-row">
+                    <input type="tel" name="phone" placeholder="Phone Number">
+                    <input type="text" name="subject" placeholder="Subject">
+                </div>
+                <textarea name="message" placeholder="Your message here..." required></textarea>
+                <div style="margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
     <footer>
-        <p>&copy; 2026 | Developed as part of Apex Planet Internship</p>
+        <div class="footer-container">
+            <p>&copy; 2026 Jagadeesh. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="https://leetcode.com/u/jagadeesh1302/" target="_blank">LeetCode</a>
+                <a href="https://www.linkedin.com/in/k-jagadeesh-138670321/" target="_blank">LinkedIn</a>
+                <a href="https://github.com/jagadeesh2k07" target="_blank">GitHub</a>
+            </div>
+        </div>
     </footer>
 
+    <button id="topBtn">↑</button>
+
+    <script src="js/script.js"></script>
 </body>
 </html>
