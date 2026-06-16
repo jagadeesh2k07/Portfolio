@@ -134,18 +134,126 @@ header {
     width: 100%;
 }
 
+/* ── Hamburger — scatter → distort → reform as ✕ ─────────────── */
 .hamburger {
     display: none;
     cursor: pointer;
     flex-direction: column;
-    gap: 6px;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(251, 146, 60, 0.06);
+    border: 1px solid rgba(251, 146, 60, 0.18);
+    position: relative;
+    overflow: visible;
+    transition: background 0.3s ease, border-color 0.3s ease,
+                box-shadow 0.3s ease;
+    z-index: 10001;
+    -webkit-tap-highlight-color: transparent;
 }
 
+.hamburger:hover {
+    background: rgba(251, 146, 60, 0.13);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 12px rgba(251, 146, 60, 0.2);
+}
+
+/* Ripple ring that fires on open */
+.hamburger::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    border: 2px solid var(--accent-color);
+    opacity: 0;
+    transform: scale(1);
+    pointer-events: none;
+}
+.hamburger.open::after {
+    animation: hbg-ring 0.5s ease-out 0.25s forwards;
+}
+@keyframes hbg-ring {
+    0%   { opacity: 0.9; transform: scale(1); }
+    100% { opacity: 0;   transform: scale(1.7); }
+}
+
+/* ── The three bars ── */
 .hamburger span {
     display: block;
-    width: 24px;
     height: 2px;
+    border-radius: 2px;
     background-color: var(--text-main);
+    position: absolute;
+    left: 50%;
+    transform-origin: center center;
+    /* smooth return (closing) */
+    transition:
+        width     0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        top       0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+        transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity   0.25s ease,
+        background-color 0.3s ease,
+        margin-left 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Resting positions — centred via negative margin */
+.hamburger span:nth-child(1) { width: 20px; margin-left: -10px; top: 13px; }
+.hamburger span:nth-child(2) { width: 14px; margin-left: -7px;  top: 21px; }
+.hamburger span:nth-child(3) { width: 20px; margin-left: -10px; top: 29px; }
+
+/* ── OPEN: Phase 1 — bars scatter outward with distortion ── */
+/* Bar 1 flies top-left and shrinks */
+.hamburger.open span:nth-child(1) {
+    animation: scatter-top 0.55s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards,
+               reform-top  0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
+    background-color: var(--accent-color);
+}
+/* Bar 2 blasts straight right and vanishes */
+.hamburger.open span:nth-child(2) {
+    animation: scatter-mid 0.45s ease-out forwards,
+               reform-mid  0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.32s forwards;
+    background-color: var(--accent-color);
+}
+/* Bar 3 flies bottom-right and shrinks */
+.hamburger.open span:nth-child(3) {
+    animation: scatter-bot 0.55s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards,
+               reform-bot  0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
+    background-color: var(--accent-color);
+}
+
+/* Scatter keyframes — bars explode outward */
+@keyframes scatter-top {
+    0%   { top: 13px; margin-left: -10px; width: 20px; transform: rotate(0deg) scaleX(1); opacity: 1; }
+    40%  { top: 2px;  margin-left: -18px; width: 8px;  transform: rotate(-30deg) scaleX(0.5); opacity: 0.6; }
+    100% { top: 2px;  margin-left: -18px; width: 8px;  transform: rotate(-30deg) scaleX(0.5); opacity: 0; }
+}
+@keyframes scatter-mid {
+    0%   { top: 21px; margin-left: -7px; width: 14px; transform: scaleX(1); opacity: 1; }
+    35%  { top: 21px; margin-left: 10px; width: 5px;  transform: scaleX(0.3); opacity: 0.4; }
+    100% { top: 21px; margin-left: 10px; width: 5px;  transform: scaleX(0.3); opacity: 0; }
+}
+@keyframes scatter-bot {
+    0%   { top: 29px; margin-left: -10px; width: 20px; transform: rotate(0deg) scaleX(1); opacity: 1; }
+    40%  { top: 38px; margin-left: 4px;   width: 8px;  transform: rotate(30deg) scaleX(0.5); opacity: 0.6; }
+    100% { top: 38px; margin-left: 4px;   width: 8px;  transform: rotate(30deg) scaleX(0.5); opacity: 0; }
+}
+
+/* Reform keyframes — snap back to centre as ✕ */
+@keyframes reform-top {
+    0%   { top: 2px;  margin-left: -18px; width: 8px;  transform: rotate(-30deg) scaleX(0.5); opacity: 0; }
+    60%  { opacity: 1; }
+    100% { top: 21px; margin-left: -10px; width: 20px; transform: rotate(45deg)  scaleX(1);   opacity: 1; }
+}
+@keyframes reform-mid {
+    0%   { top: 21px; margin-left: 10px; width: 5px;  transform: scaleX(0.3); opacity: 0; }
+    100% { top: 21px; margin-left: 10px; width: 5px;  transform: scaleX(0);   opacity: 0; }
+}
+@keyframes reform-bot {
+    0%   { top: 38px; margin-left: 4px;   width: 8px;  transform: rotate(30deg) scaleX(0.5); opacity: 0; }
+    60%  { opacity: 1; }
+    100% { top: 21px; margin-left: -10px; width: 20px; transform: rotate(-45deg) scaleX(1);  opacity: 1; }
 }
 
 .section-container {
@@ -927,6 +1035,7 @@ section, footer {
         padding: 16px 6%;
     }
 
+    /* ── Dropdown panel ── */
     .nav-links {
         position: absolute;
         top: 100%;
@@ -937,23 +1046,110 @@ section, footer {
         width: 100%;
         margin: 0;
         gap: 0;
-        background-color: var(--bg-primary);
-        border-bottom: 1px solid var(--border-light);
-        box-shadow: 0 16px 28px rgba(0, 0, 0, 0.5);
-        padding: 8px 6% 16px;
+        /* Glassmorphism panel */
+        background: rgba(8, 8, 7, 0.92);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(251, 146, 60, 0.25);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6),
+                    0 1px 0 rgba(251, 146, 60, 0.15) inset;
+        padding: 6px 6% 14px;
+        z-index: 10000;
+        /* Panel slides down from behind navbar */
+        clip-path: inset(0 0 100% 0);
+        transition: clip-path 0s;
+        overflow: hidden;
+    }
+
+    /* Panel sweeps open */
+    .nav-links[style*="flex"] {
+        clip-path: inset(0 0 0% 0);
+        transition: clip-path 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Glowing top-edge accent line */
+    .nav-links::before {
+        content: '';
+        display: block;
+        height: 1px;
+        width: 0%;
+        background: linear-gradient(90deg,
+            transparent 0%,
+            var(--accent-color) 40%,
+            rgba(251,146,60,0.4) 100%);
+        margin-bottom: 6px;
+        transition: width 0.5s ease 0.1s;
+    }
+    .nav-links[style*="flex"]::before {
+        width: 100%;
     }
 
     .nav-links li {
         width: 100%;
         list-style: none;
+        /* Each item starts invisible and offset */
+        opacity: 0;
+        transform: translateX(-22px);
+        transition: none;
     }
 
+    /* Stagger items in when menu is open */
+    .nav-links[style*="flex"] li {
+        opacity: 1;
+        transform: translateX(0);
+        transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .nav-links[style*="flex"] li:nth-child(1) { transition-delay: 0.08s; }
+    .nav-links[style*="flex"] li:nth-child(2) { transition-delay: 0.13s; }
+    .nav-links[style*="flex"] li:nth-child(3) { transition-delay: 0.18s; }
+    .nav-links[style*="flex"] li:nth-child(4) { transition-delay: 0.23s; }
+    .nav-links[style*="flex"] li:nth-child(5) { transition-delay: 0.28s; }
+    .nav-links[style*="flex"] li:nth-child(6) { transition-delay: 0.33s; }
+
     .nav-links li a {
-        display: block;
+        display: flex;
+        align-items: center;
+        gap: 10px;
         width: 100%;
-        padding: 14px 0;
+        padding: 13px 0;
         font-size: 0.95rem;
-        border-bottom: 1px solid var(--border-light);
+        border-bottom: 1px solid rgba(251, 146, 60, 0.07);
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Orange light-streak on each link hover */
+    .nav-links li a::before {
+        content: '';
+        position: absolute;
+        left: -100%;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(251,146,60,0.08) 50%,
+            transparent 100%);
+        transition: left 0.35s ease;
+    }
+    .nav-links li a:hover::before {
+        left: 100%;
+    }
+
+    /* Accent dot before each item */
+    .nav-links li a::after {
+        content: '›';
+        position: absolute;
+        right: 6px;
+        font-size: 1.1rem;
+        color: var(--accent-color);
+        opacity: 0;
+        transform: translateX(-6px);
+        transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    .nav-links li a:hover::after {
+        opacity: 1;
+        transform: translateX(0);
     }
 
     .nav-links li:last-child a {
@@ -986,5 +1182,57 @@ section, footer {
     .profile-img {
         width: 220px;
         height: 220px;
+    }
+}
+/* ── Hamburger lock / unlock states ─────────────────────────── */
+
+/* Default on mobile: start locked */
+@media (max-width: 768px) {
+    .hamburger {
+        /* slightly dim when locked */
+        opacity: 0.55;
+        transition: opacity 0.4s ease, background 0.3s ease,
+                    border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Show a small lock tooltip hint via pseudo-element */
+    .hamburger.nav-locked::before {
+        content: '↓';
+        position: absolute;
+        bottom: -18px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 9px;
+        color: var(--accent-color);
+        opacity: 0.75;
+        pointer-events: none;
+        letter-spacing: 0;
+        animation: bounce-hint 1.4s ease-in-out infinite;
+    }
+
+    @keyframes bounce-hint {
+        0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.6; }
+        50%       { transform: translateX(-50%) translateY(3px); opacity: 1; }
+    }
+
+    /* Fully visible + glowing once unlocked */
+    .hamburger.nav-unlocked {
+        opacity: 1;
+        border-color: var(--accent-color);
+        box-shadow: 0 0 10px rgba(251, 146, 60, 0.3);
+    }
+
+    /* Pulse animation when user taps while still locked */
+    .hamburger.locked-pulse {
+        animation: locked-shake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    }
+
+    @keyframes locked-shake {
+        0%   { transform: scale(1)    rotate(0deg);  border-color: rgba(251,146,60,0.18); }
+        20%  { transform: scale(1.12) rotate(-6deg); border-color: var(--accent-color); box-shadow: 0 0 14px rgba(251,146,60,0.4); }
+        40%  { transform: scale(1.08) rotate(5deg);  border-color: var(--accent-color); }
+        60%  { transform: scale(1.05) rotate(-3deg); }
+        80%  { transform: scale(1.02) rotate(1deg);  }
+        100% { transform: scale(1)    rotate(0deg);  }
     }
 }

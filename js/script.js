@@ -102,11 +102,29 @@ revealEls.forEach(el => revealObserver.observe(el));
 
 
 
+// ── Hamburger lock: only usable after profile pic has settled into navbar ──
+let navUnlocked = false;
+let pendingMenuOpen = false; // set when user taps hamburger while on hero
+
 function toggleMenu() {
     const navLinks = document.querySelector('.nav-links');
-    if (navLinks.style.display === 'flex') {
+    const hamburger = document.querySelector('.hamburger');
+
+    if (!navUnlocked) {
+        // Scroll photo into navbar, flag to auto-open once it lands
+        pendingMenuOpen = true;
+        window.scrollTo({ top: 300, behavior: 'smooth' });
+        hamburger.classList.add('locked-pulse');
+        setTimeout(() => hamburger.classList.remove('locked-pulse'), 700);
+        return;
+    }
+
+    const isOpen = hamburger.classList.contains('open');
+    if (isOpen) {
+        hamburger.classList.remove('open');
         navLinks.style.display = 'none';
     } else {
+        hamburger.classList.add('open');
         navLinks.style.display = 'flex';
     }
 }
@@ -225,14 +243,39 @@ function animateImg() {
     profileImg.style.boxShadow = `0 0 0 ${ringSize.toFixed(1)}px rgba(251,146,60,${ringAlpha.toFixed(2)}), 0 4px ${shadowBlur.toFixed(0)}px rgba(0,0,0,${shadowAlpha.toFixed(2)})`;
 
     // LinkedIn click only when mostly in nav
+    const hamburger = document.querySelector('.hamburger');
     if (p > 0.85) {
         profileImg.onclick = redirectToLinkedIn;
         profileImg.style.cursor = 'pointer';
         document.body.classList.add('scrolled');
+        // Unlock hamburger — profile pic has landed in the navbar
+        if (!navUnlocked) {
+            navUnlocked = true;
+            hamburger && hamburger.classList.remove('nav-locked');
+            hamburger && hamburger.classList.add('nav-unlocked');
+            // If user tapped hamburger while on hero, auto-open after photo settles
+            if (pendingMenuOpen) {
+                pendingMenuOpen = false;
+                setTimeout(() => {
+                    const navLinks = document.querySelector('.nav-links');
+                    const hbg = document.querySelector('.hamburger');
+                    if (hbg) hbg.classList.add('open');
+                    if (navLinks) navLinks.style.display = 'flex';
+                }, 180); // slight pause so user sees photo land first
+            }
+        }
     } else {
         profileImg.onclick = null;
         profileImg.style.cursor = 'default';
         document.body.classList.remove('scrolled');
+        // Lock hamburger — user scrolled back to hero
+        if (navUnlocked) {
+            navUnlocked = false;
+            const navLinks = document.querySelector('.nav-links');
+            hamburger && hamburger.classList.remove('open', 'nav-unlocked');
+            hamburger && hamburger.classList.add('nav-locked');
+            if (navLinks) navLinks.style.display = 'none';
+        }
     }
 
     rafId = requestAnimationFrame(animateImg);
@@ -293,8 +336,10 @@ navItems.forEach(item => {
 document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
         const navLinks = document.querySelector('.nav-links');
+        const hamburger = document.querySelector('.hamburger');
         if (navLinks && window.innerWidth <= 768) {
             navLinks.style.display = 'none';
+            hamburger && hamburger.classList.remove('open');
         }
     });
 });
