@@ -99,6 +99,12 @@ header {
     transition: color 0.25s ease;
 }
 
+.nav-links li i {
+    margin-right: 8px; 
+    font-size: 0.9rem; 
+    color: var(--text-muted); 
+}
+
 .nav-links li a {
     text-decoration: none;
     color: var(--text-main);
@@ -1035,121 +1041,135 @@ section, footer {
         padding: 16px 6%;
     }
 
-    /* ── Dropdown panel ── */
+    /* ── Compact horizontal pill bar ── */
     .nav-links {
         position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        flex-direction: column;
-        align-items: flex-start;
-        width: 100%;
+        top: calc(100% + 6px);
+        left: 50%;
+        transform: translateX(-50%) scaleY(0.6);
+        transform-origin: top center;
+        width: calc(100% - 24px);
+        max-width: 420px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        flex-wrap: nowrap;
         margin: 0;
         gap: 0;
-        /* Glassmorphism panel */
-        background: rgba(8, 8, 7, 0.92);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(251, 146, 60, 0.25);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6),
-                    0 1px 0 rgba(251, 146, 60, 0.15) inset;
-        padding: 6px 6% 14px;
+        background: rgba(10, 10, 9, 0.94);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(251, 146, 60, 0.22);
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.55),
+                    0 0 0 1px rgba(251,146,60,0.06) inset;
+        padding: 0;
         z-index: 10000;
-        /* Panel slides down from behind navbar */
-        clip-path: inset(0 0 100% 0);
-        transition: clip-path 0s;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.28s ease,
+                    transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
         overflow: hidden;
     }
 
-    /* Panel sweeps open */
-    .nav-links[style*="flex"] {
-        clip-path: inset(0 0 0% 0);
-        transition: clip-path 0.42s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* Glowing top-edge accent line */
+    /* Glowing top border sweep */
     .nav-links::before {
         content: '';
-        display: block;
-        height: 1px;
-        width: 0%;
+        position: absolute;
+        top: 0; left: -100%;
+        width: 100%; height: 1px;
         background: linear-gradient(90deg,
-            transparent 0%,
-            var(--accent-color) 40%,
-            rgba(251,146,60,0.4) 100%);
-        margin-bottom: 6px;
-        transition: width 0.5s ease 0.1s;
+            transparent, var(--accent-color), transparent);
+        transition: left 0.5s ease 0.05s;
+    }
+
+    /* Open state */
+    .nav-links[style*="flex"] {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(-50%) scaleY(1);
     }
     .nav-links[style*="flex"]::before {
-        width: 100%;
-    }
-
-    .nav-links li {
-        width: 100%;
-        list-style: none;
-        /* Each item starts invisible and offset */
-        opacity: 0;
-        transform: translateX(-22px);
-        transition: none;
-    }
-
-    /* Stagger items in when menu is open */
-    .nav-links[style*="flex"] li {
-        opacity: 1;
-        transform: translateX(0);
-        transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .nav-links[style*="flex"] li:nth-child(1) { transition-delay: 0.08s; }
-    .nav-links[style*="flex"] li:nth-child(2) { transition-delay: 0.13s; }
-    .nav-links[style*="flex"] li:nth-child(3) { transition-delay: 0.18s; }
-    .nav-links[style*="flex"] li:nth-child(4) { transition-delay: 0.23s; }
-    .nav-links[style*="flex"] li:nth-child(5) { transition-delay: 0.28s; }
-    .nav-links[style*="flex"] li:nth-child(6) { transition-delay: 0.33s; }
-
-    .nav-links li a {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        width: 100%;
-        padding: 13px 0;
-        font-size: 0.95rem;
-        border-bottom: 1px solid rgba(251, 146, 60, 0.07);
-        position: relative;
-        overflow: hidden;
-    }
-
-    /* Orange light-streak on each link hover */
-    .nav-links li a::before {
-        content: '';
-        position: absolute;
-        left: -100%;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg,
-            transparent 0%,
-            rgba(251,146,60,0.08) 50%,
-            transparent 100%);
-        transition: left 0.35s ease;
-    }
-    .nav-links li a:hover::before {
         left: 100%;
     }
 
-    /* Accent dot before each item */
-    .nav-links li a::after {
-        content: '›';
-        position: absolute;
-        right: 6px;
-        font-size: 1.1rem;
-        color: var(--accent-color);
+    .nav-links li {
+        flex: 1;
+        list-style: none;
         opacity: 0;
-        transform: translateX(-6px);
-        transition: opacity 0.25s ease, transform 0.25s ease;
+        transform: translateY(6px);
+        transition: none;
+        min-width: 0;
     }
-    .nav-links li a:hover::after {
+
+    /* Stagger pop-in */
+    .nav-links[style*="flex"] li {
         opacity: 1;
-        transform: translateX(0);
+        transform: translateY(0);
+        transition: opacity 0.28s ease, transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .nav-links[style*="flex"] li:nth-child(1) { transition-delay: 0.04s; }
+    .nav-links[style*="flex"] li:nth-child(2) { transition-delay: 0.08s; }
+    .nav-links[style*="flex"] li:nth-child(3) { transition-delay: 0.12s; }
+    .nav-links[style*="flex"] li:nth-child(4) { transition-delay: 0.16s; }
+    .nav-links[style*="flex"] li:nth-child(5) { transition-delay: 0.20s; }
+    .nav-links[style*="flex"] li:nth-child(6) { transition-delay: 0.24s; }
+
+    .nav-links li a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 11px 4px;
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.65);
+        text-decoration: none;
+        border-bottom: none;
+        position: relative;
+        transition: color 0.2s ease, background 0.2s ease;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Active glow under each link */
+    .nav-links li a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%) scaleX(0);
+        width: 60%;
+        height: 2px;
+        border-radius: 2px;
+        background: var(--accent-color);
+        box-shadow: 0 0 8px var(--accent-color);
+        transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .nav-links li a:hover,
+    .nav-links li a.active {
+        color: var(--accent-color);
+        background: rgba(251, 146, 60, 0.07);
+    }
+
+    .nav-links li a:hover::after,
+    .nav-links li a.active::after {
+        transform: translateX(-50%) scaleX(1);
+    }
+
+    /* Tap ripple */
+    .nav-links li a:active {
+        background: rgba(251, 146, 60, 0.14);
+    }
+
+    /* Dividers between items */
+    .nav-links li + li {
+        border-left: 1px solid rgba(251, 146, 60, 0.1);
     }
 
     .nav-links li:last-child a {
@@ -1162,9 +1182,10 @@ section, footer {
         padding: 14px 5%;
     }
 
+    /* Keep pill nav labels small on narrow phones */
     .nav-links li a {
-        font-size: 0.9rem;
-        padding: 12px 0;
+        font-size: 0.62rem;
+        padding: 10px 2px;
     }
 
     .hero-text h2 {
