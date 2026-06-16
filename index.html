@@ -4,143 +4,154 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jagadeesh | Software Engineer</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23080807'/><text y='72' x='50' text-anchor='middle' font-size='62' font-family='Plus Jakarta Sans,sans-serif' font-weight='700' fill='%23fb923c'>J</text></svg>">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
 </head>
 <body>
 
+    <!-- Particle canvas background -->
+    <canvas id="particleCanvas"></canvas>
+
     <header>
-        <nav class="navbar">
-            <div class="logo">K JAGADEESH</div>
-            <div class="hamburger" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+    <nav class="navbar">
+            <div class="logo-link">
+            <div class="logo-avatar-placeholder"></div>
+            <div class="logo"></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
     </header>
 
     <section id="home" class="hero-section">
         <div class="hero-container">
-            <div class="hero-text">
-                <span class="subtitle">Student</span>
-                <h1>Building clean, efficient digital solutions.</h1>
-                <p>Computer Science student at JNTU Kakinada and Full Stack Developer Intern specialized in structural Java architectures and responsive web engineering.</p>
+            <div class="hero-text reveal">
+                <h2>K JAGADEESH</h2>
+                <span class="subtitle" id="job-title"></span>
+                <p class="hero-p">Computer Science student at JNTU Kakinada with a strong interest in full-stack web development and modern digital technologies.<br>
+                    Passionate about building responsive, user-friendly web applications while continuously strengthening problem-solving and software engineering skills.</p>
                 <div class="hero-actions">
                     <a href="#projects" class="btn btn-primary">View Projects</a>
-                    <a href="assets/resume.pdf" class="btn btn-secondary" download><i class="fas fa-download"></i> Resume</a>
+                    <a href="resume.pdf" class="btn btn-secondary" download><i class="fas fa-download"></i> Resume</a>
                 </div>
             </div>
             <div class="hero-image">
-                <div class="image-border-box">
-                    <img src="me.jpeg" alt="Jagadeesh" class="profile-img">
+                <div class="image-border-box" id="heroImgSlot">
+                    <div class="profile-img-ghost"></div>
+                    <img src="me.jpeg" alt="Jagadeesh" class="profile-img" id="profileImg">
                 </div>
             </div>
         </div>
     </section>
 
     <section id="about" class="section-container">
-        <h2 class="section-heading">About Me</h2>
-        <div class="about-grid">
-            <div class="about-bio">
-                <p>I am a focused Computer Science & Engineering student at <strong>JNTU Kakinada</strong> with a strong foundation in object-oriented programming, data structures, and interactive web development.</p>
-                <p>Currently logic-building and building local hosting environments as a Full Stack Developer Intern at <strong>ApexPlanet Software Pvt. Ltd.</strong>, translating programmatic theories into practical applications.</p>
+    <h2 class="section-heading reveal">About Me</h2>
+    <div class="about-grid reveal">
+    <div class="about-bio">
+    <p>I am a focused Computer Science & Engineering student at <strong>JNTU Kakinada</strong>, passionate about web development and building modern, user-friendly digital experiences.</p>
+    <div class="about-divider"></div>
+    <p>Currently strengthening my skills in the MERN stack, Data Structures & Algorithms, and full-stack application development while working on real-world projects that transform ideas into functional web solutions.</p>
+    <div class="about-divider"></div>
+    <p style="margin-top: 20px;">Beyond academics, I am committed to continuous learning and open-source contribution, always looking for opportunities to refine my technical stack and collaborate on innovative software initiatives.</p>
+    </div>
+        <div class="about-stats">
+            <div class="stat-card">
+                <i class="fab fa-git-alt" style="font-size: 1.5rem; color: #f05032; margin-bottom: 8px;"></i>
+                <h3>4</h3>
+                <p>Active Repositories</p>
             </div>
-            <div class="about-stats">
-                <div class="stat-card">
-                    <h3>8.2</h3>
-                    <p>JNTUK CGPA</p>
-                </div>
-                <div class="stat-card">
-                    <h3>60 Days</h3>
-                    <p>Internship Residency</p>
-                </div>
+            <div class="stat-card">
+                <i class="fas fa-cloud-upload-alt" style="font-size: 1.5rem; color: #0076ff; margin-bottom: 8px;"></i>
+                <h3>3</h3>
+                <p>Live Deployments</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <section id="skills" class="section-container bg-alt">
-        <h2 class="section-heading">Technical Stack</h2>
-        <div class="skills-display">
-            <div class="skills-column">
-                <h3>Core Logic</h3>
-                <ul>
-                    <li>Java Standard Edition</li>
-                    <li>Self-Balancing AVL Trees</li>
-                    <li>Adjacency Matrices</li>
-                </ul>
-            </div>
-            <div class="skills-column">
-                <h3>Web Frontend</h3>
-                <ul>
-                    <li>Semantic HTML5</li>
-                    <li>Modern Layout CSS3</li>
-                    <li>Functional JavaScript</li>
-                </ul>
-            </div>
-            <div class="skills-column">
-                <h3>Backend & Tools</h3>
-                <ul>
-                    <li>PHP Scripting Engine</li>
-                    <li>MySQL Relational DB</li>
-                    <li>Git / GitHub Version Control</li>
-                </ul>
-            </div>
+    <h2 class="section-heading reveal">Technical Stack</h2>
+    <div class="skills-grid reveal">
+        <div class="skill-card">
+            <i class="fas fa-code"></i>
+            <h3>Languages</h3>
+            <p>C, Python, Java (OOP)</p>
         </div>
+        <div class="skill-card">
+            <i class="fas fa-database"></i>
+            <h3>Data & Databases</h3>
+            <p>DSA, AVL Trees, Graphs, DBMS</p>
+        </div>
+        <div class="skill-card">
+            <i class="fas fa-laptop-code"></i>
+            <h3>Web Development</h3>
+            <p>HTML5, CSS3, JS (ES6+), Git</p>
+        </div>
+    </div>
     </section>
-
     <section id="projects" class="section-container">
-        <h2 class="section-heading">Selected Projects</h2>
-        <div class="filter-bar">
+        <h2 class="section-heading reveal">My Contributions</h2><br>
+        <div class="filter-bar reveal">
             <button onclick="filterProjects('all')" class="filter-link active">All</button>
             <button onclick="filterProjects('web')" class="filter-link">Web Applications</button>
-            <button onclick="filterProjects('core')" class="filter-link">Java Modules</button>
+            <button onclick="filterProjects('ml')" class="filter-link">Machine Learning</button>
         </div>
 
         <div class="projects-layout">
-            <div class="project-item web">
-                <span class="project-type">Web Frontend</span>
-                <h3>Personal Portfolio Framework</h3>
-                <p>A minimalist personal portfolio platform engineered with strict, responsive layouts and local deployment version controls for ApexPlanet Task 1.</p>
-                <a href="https://github.com/jagadeesh2k07/jagadeesh2k07" target="_blank" class="project-link">Source Code <i class="fas fa-arrow-right"></i></a>
-            </div>
-
-            <div class="project-item web">
+            <div class="project-item web reveal">
                 <span class="project-type">Cloud-Deployed Prototype</span>
-                <h3>Chemical Spectrometry Framework</h3>
+                <h3>Smart Water Quality Analysis</h3>
                 <p>An advanced analytical web application engineered to simulate Beer-Lambert law calculations, parsing relative liquid absorbance parameters and heavy metal contamination metrics via native optical sensors.</p>
                 <div style="margin-top: 14px; display: flex; gap: 12px;">
-                    <a href="https://github.com/jagadeesh2k07/jagadeesh2k07-P1" target="_blank" class="project-link" style="margin: 0;"><i class="fab fa-github"></i> Repository</a>
-                    <a href="https://chemical-water-detection-system-760355251737.asia-southeast1.run.app" target="_blank" class="project-link" style="margin: 0; color: #ffffff;"><i class="fas fa-external-link-alt"></i> Live App</a>
+                    <a href="https://github.com/jagadeesh2k07/hydroscan-water-analyzer" target="_blank" class="project-link" style="margin: 0;"><i class="fab fa-github"></i> Repository</a>
+                    <a href="https://jagadeesh2k07.github.io/hydroscan-water-analyzer/" target="_blank" class="project-link" style="margin: 0; color: #ffffff;"><i class="fas fa-external-link-alt"></i> Live App</a>
                 </div>
             </div>
 
-            <div class="project-item core">
-                <span class="project-type">Data Structures</span>
-                <h3>Java Balance-Engine Toolkit</h3>
-                <p>A back-end algorithmic architecture built to process nested datasets, node rotation sequences, and complex matrix mappings.</p>
-                <a href="#" class="project-link">Repository <i class="fas fa-arrow-right"></i></a>
+            <div class="project-item web reveal">
+                <h3>LearnPathNHub</h3>
+                <p>A centralized learning hub designed to help students track their academic roadmap, manage course progress, and organize assignments with features like offline sync and multi-language support.</p>
+                <div style="margin-top: 14px; display: flex; gap: 12px;">
+                    <a href="https://github.com/jagadeesh2k07/learnpathnhub" target="_blank" class="project-link" style="margin: 0;"><i class="fab fa-github"></i> Repository</a>
+                    <a href="https://learnpathnhub-lilac.vercel.app/" target="_blank" class="project-link" style="margin: 0; color: #ffffff;"><i class="fas fa-external-link-alt"></i> Live App</a>
+                </div>
+            </div>
+
+            <div class="project-item ml reveal">
+                <span class="project-type">Machine Learning / Web Application</span>
+                <h3>Fake Account Detector</h3>
+                <p>An AI-powered classification tool that analyzes user behavior, profile attributes, and engagement metrics to accurately distinguish between legitimate social media accounts and fraudulent or bot profiles.</p>
+                <div style="margin-top: 14px; display: flex; gap: 12px;">
+                    <a href="https://github.com/jagadeesh2k07/fakeaccdetect" target="_blank" class="project-link" style="margin: 0;"><i class="fab fa-github"></i> Repository</a>
+                    <a href="https://fakeacc.vercel.app/" target="_blank" class="project-link" style="margin: 0; color: #ffffff;"><i class="fas fa-external-link-alt"></i> Live App</a>
+                </div>
             </div>
         </div>
     </section>
 
     <section id="education" class="section-container bg-alt">
-        <h2 class="section-heading">Education</h2>
-        <div class="table-wrapper">
+        <h2 class="section-heading reveal">Education</h2><br>
+        <div class="table-wrapper reveal">
             <table class="minimal-table">
                 <thead>
                     <tr>
                         <th>Degree / Program</th>
                         <th>Institution</th>
                         <th>Affiliation</th>
+                        <th>Aggregate</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -148,16 +159,19 @@
                         <td>B.Tech (Computer Science & Engineering)</td>
                         <td>University College of Engineering Kakinada</td>
                         <td>JNTU Kakinada</td>
+                        <td>8.2 CGPA</td>
                     </tr>
                     <tr>
                         <td>Intermediate (10 + 2)</td>
                         <td>Sasi Junior College</td>
                         <td>Board of Intermediate (A.P)</td>
+                        <td>97.5 %</td>
                     </tr>
                     <tr>
                         <td>10th class</td>
                         <td>Kendriya Vidyalaya (VSKP)</td>
-                        <td>CBSE</td>
+                        <td>Central Board of Secondary Education</td>
+                        <td>80 %</td>
                     </tr>
                 </tbody>
             </table>
@@ -165,8 +179,8 @@
     </section>
 
     <section id="experience" class="section-container bg-alt">
-        <h2 class="section-heading">Professional Experience</h2>
-        <div class="experience-timeline">
+        <h2 class="section-heading reveal">Professional Experience</h2>
+        <div class="experience-timeline reveal">
             <div class="timeline-item">
                 <div class="timeline-meta">
                     <span class="timeline-date">Current Residency</span>
@@ -186,41 +200,31 @@
     </section>
 
     <section id="connect" class="section-container">
-        <div class="connect-grid">
-            <div class="connect-text">
-                <h2 class="section-heading">Professional Networks</h2>
-                <p>I actively document my development milestones, write technical summaries, and network with fellow software engineers on LinkedIn. Let's connect to share insights and build collaborative projects.</p>
-                <a href="https://www.linkedin.com/in/k-jagadeesh-138670321/" target="_blank" class="premium-connect-btn">
-                    <i class="fab fa-linkedin-in"></i> View My Full Profile <i class="fas fa-arrow-right arrow-shift"></i>
-                </a>
-            </div>
-            <div class="connect-preview-box">
-                <div class="badge-header">
-                    <span class="circle-dot"></span> Verified Developer Blueprint
-                </div>
-                <h3>Jagadeesh</h3>
-                <p class="badge-title">Software Engineer & Student at JNTU Kakinada</p>
-                <div class="badge-footer">
-                    <span><i class="fas fa-link"></i> github.com/jagadeesh2k07</span>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="connect-text reveal">
+        <h2 class="section-heading">Join My Journey</h2>
+        <p>I actively document my development milestones, write technical summaries<br>and network with fellow software engineers on LinkedIn and GitHub.<br>Let's connect to share insights and build collaborative projects.</p>
+    </div>
+    
+    <div class="about-divider" style="margin: 25px 0;"></div>
 
-    <section class="section-container">
-        <h2 class="section-heading">Project Presentation</h2>
-        <div class="video-wrapper">
-            <video width="100%" controls poster="assets/video-thumbnail.png">
-                <source src="assets/task1-presentation.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
+    <div class="skills-grid">
+        <a href="https://linkedin.com/in/k-jagadeesh-138670321" target="_blank" class="skill-card">
+            <i class="fab fa-linkedin-in" style="color: #0077b5;"></i>
+            <h3>LinkedIn</h3>
+            <p>@k-jagadeesh-138670321</p>
+        </a>
+        <a href="https://github.com/jagadeesh2k07" target="_blank" class="skill-card">
+            <i class="fab fa-github" style="color: #fff;"></i>
+            <h3>GitHub</h3>
+            <p>@jagadeesh2k07</p>
+        </a>
+    </div>
     </section>
 
     <section id="contact" class="section-container bg-alt">
-        <div class="contact-box">
+        <div class="contact-box reveal">
             <div class="contact-header">
-                <h2 class="section-heading">Get In Touch</h2>
+                <h2 class="section-heading">Get In Touch</h2><br>
                 <p>Have a question or looking to collaborate? Drop a message below.</p>
             </div>
             <form id="contactForm" class="minimal-form">
@@ -241,16 +245,24 @@
     </section>
 
     <footer>
-        <div class="footer-container">
-            <p>&copy; 2026 Jagadeesh. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="https://leetcode.com/u/jagadeesh1302/" target="_blank">LeetCode</a>
-                <a href="https://www.linkedin.com/in/k-jagadeesh-138670321/" target="_blank">LinkedIn</a>
-                <a href="https://github.com/jagadeesh2k07" target="_blank">GitHub</a>
-            </div>
+    <div class="footer-container">
+        <p>&copy; 2026 Jagadeesh. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://leetcode.com/u/jagadeesh1302/" target="_blank" rel="noopener noreferrer">
+            <i class="devicon-leetcode-plain"></i>LeetCode
+            </a>
+            <a href="https://www.linkedin.com/in/k-jagadeesh-138670321/" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-linkedin-in" aria-hidden="true"></i> LinkedIn
+            </a>
+            <a href="https://github.com/jagadeesh2k07" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-github" aria-hidden="true"></i> GitHub
+            </a>
+            <a href="https://jagadeesh2k07@gmail.com" target="_blank" rel="noopener noreferrer">
+               <i class="fa-brands fa-google"></i> Gmail
+            </a>
         </div>
+    </div>
     </footer>
-
     <button id="topBtn">↑</button>
 
     <script src="js/script.js"></script>
