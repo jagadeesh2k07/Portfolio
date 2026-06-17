@@ -2,7 +2,11 @@ const topBtn = document.getElementById('topBtn');
 const sections = document.querySelectorAll('section, header');
 const navLi = document.querySelectorAll('.nav-links a');
 
-// ── Typing cursor effect ──────────────────────────────────────────
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const navBackdrop  = document.getElementById('navBackdrop');
+let menuOpen = false;
+let pendingMenuOpen = false;
+
 const words = ["Aspiring Full Stack Developer", "Passionate Web Developer", "CS Student @ JNTU Kakinada"];
 let wordIndex = 0;
 let charIndex = 0;
@@ -32,7 +36,6 @@ function typeEffect() {
 }
 typeEffect();
 
-// ── Particle canvas background ────────────────────────────────────
 const canvas = document.getElementById('particleCanvas');
 const ctx = canvas.getContext('2d');
 let particles = [];
@@ -70,7 +73,6 @@ function drawParticles() {
         if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
     });
 
-    // Draw subtle connecting lines between close particles
     for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
             const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
@@ -88,7 +90,6 @@ function drawParticles() {
 }
 drawParticles();
 
-// ── Scroll reveal ─────────────────────────────────────────────────
 const revealEls = document.querySelectorAll('.reveal');
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -102,32 +103,55 @@ revealEls.forEach(el => revealObserver.observe(el));
 
 
 
-// ── Hamburger lock: only usable after profile pic has settled into navbar ──
-let navUnlocked = false;
-let pendingMenuOpen = false; // set when user taps hamburger while on hero
+function openMenu() {
+    if (!hamburgerBtn) return;
+    menuOpen = true;
+    hamburgerBtn.classList.add('open');
+    const navLinksEl = document.querySelector('.nav-links');
+    if (navLinksEl) {
+        navLinksEl.classList.remove('open');
+        void navLinksEl.offsetWidth; 
+        navLinksEl.classList.add('open');
+    }
+    if (navBackdrop) navBackdrop.classList.add('open');
+}
+
+function closeMenu() {
+    if (!hamburgerBtn) return;
+    menuOpen = false;
+    hamburgerBtn.classList.remove('open');
+    const navLinksEl = document.querySelector('.nav-links');
+    if (navLinksEl) navLinksEl.classList.remove('open');
+    if (navBackdrop) navBackdrop.classList.remove('open');
+}
 
 function toggleMenu() {
-    const navLinks = document.querySelector('.nav-links');
-    const hamburger = document.querySelector('.hamburger');
+    if (window.innerWidth > 768) return; 
 
-    if (!navUnlocked) {
-        // Scroll photo into navbar, flag to auto-open once it lands
+    if (!document.body.classList.contains('scrolled')) {
         pendingMenuOpen = true;
         window.scrollTo({ top: 300, behavior: 'smooth' });
-        hamburger.classList.add('locked-pulse');
-        setTimeout(() => hamburger.classList.remove('locked-pulse'), 700);
         return;
     }
 
-    const isOpen = hamburger.classList.contains('open');
-    if (isOpen) {
-        hamburger.classList.remove('open');
-        navLinks.style.display = 'none';
-    } else {
-        hamburger.classList.add('open');
-        navLinks.style.display = 'flex';
-    }
+    menuOpen ? closeMenu() : openMenu();
 }
+
+if (navBackdrop) {
+    navBackdrop.addEventListener('click', closeMenu);
+}
+
+navLi.forEach(link => {
+    link.addEventListener('click', () => {
+        navLi.forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
+        closeMenu();
+    });
+});
+
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) closeMenu();
+});
 
 function filterProjects(category) {
     const items = document.querySelectorAll('.project-item');
@@ -151,29 +175,19 @@ function redirectToLinkedIn() {
     window.open('https://www.linkedin.com/in/k-jagadeesh-138670321/', '_blank');
 }
 
-// ── Butter-smooth profile img → navbar logo animation ─────────────
 const profileImg  = document.getElementById('profileImg');
 const heroSlot    = document.getElementById('heroImgSlot');
 const logoSlot    = document.querySelector('.logo-avatar-placeholder');
 
-// Move the profile image to be a direct child of <body>.
-// Reason: <section> elements have "position: relative; z-index: 1"
-// (to sit above the particle canvas), which creates a stacking context.
-// That traps the image's z-index:9999 *inside* the section instead of
-// the page root, so it was rendering behind the fixed header (z-index:1000)
-// once it scrolled into the navbar area. Moving it to <body> lets its
-// z-index compete directly with the header's, fixing the overlap.
 if (profileImg && profileImg.parentNode !== document.body) {
     document.body.appendChild(profileImg);
 }
 
-// Sizes
 const HERO_SIZE   = 320;
 const NAV_SIZE    = 35;
 const HERO_RADIUS = 24;
 const NAV_RADIUS  = 6;
 
-// Current animated values (start at hero)
 let cur = { x: 0, y: 0, size: HERO_SIZE, radius: HERO_RADIUS, shadow: 1 };
 let initialized = false;
 
@@ -186,11 +200,8 @@ function getNavRect() {
 
 function lerp(a, b, t) { return a + (b - a) * t; }
 
-// Ease in-out cubic
 function ease(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
 
-// scroll progress: 0 = hero, 1 = fully in navbar
-// transition zone: scrollY 0–180px
 function scrollProgress() {
     return Math.min(Math.max(window.scrollY / 180, 0), 1);
 }
@@ -204,7 +215,6 @@ function animateImg() {
     const navRect  = getNavRect();
     if (!heroRect || !navRect) { rafId = requestAnimationFrame(animateImg); return; }
 
-    // Initialise cur to hero position on first frame
     if (!initialized) {
         cur.x      = heroRect.left + (heroRect.width  - HERO_SIZE) / 2;
         cur.y      = heroRect.top  + (heroRect.height - HERO_SIZE) / 2;
@@ -222,7 +232,6 @@ function animateImg() {
     const targetSize   = lerp(HERO_SIZE,   NAV_SIZE,   p);
     const targetRadius = lerp(HERO_RADIUS, NAV_RADIUS, p);
 
-    // Smooth lerp toward target (0.18 = smoothing factor)
     const s = 0.18;
     cur.x      = lerp(cur.x,      targetX,      s);
     cur.y      = lerp(cur.y,      targetY,      s);
@@ -235,47 +244,26 @@ function animateImg() {
     profileImg.style.height       = cur.size + 'px';
     profileImg.style.borderRadius = cur.radius + 'px';
 
-    // Interpolate box-shadow: big hero shadow → accent ring in nav
     const shadowBlur   = lerp(32, 8, p);
     const shadowAlpha  = lerp(0.5, 0.3, p);
     const ringSize     = lerp(0, 2, p);
     const ringAlpha    = lerp(0, 1, p);
     profileImg.style.boxShadow = `0 0 0 ${ringSize.toFixed(1)}px rgba(251,146,60,${ringAlpha.toFixed(2)}), 0 4px ${shadowBlur.toFixed(0)}px rgba(0,0,0,${shadowAlpha.toFixed(2)})`;
 
-    // LinkedIn click only when mostly in nav
-    const hamburger = document.querySelector('.hamburger');
+    const wasUnlocked = document.body.classList.contains('scrolled');
     if (p > 0.85) {
         profileImg.onclick = redirectToLinkedIn;
         profileImg.style.cursor = 'pointer';
         document.body.classList.add('scrolled');
-        // Unlock hamburger — profile pic has landed in the navbar
-        if (!navUnlocked) {
-            navUnlocked = true;
-            hamburger && hamburger.classList.remove('nav-locked');
-            hamburger && hamburger.classList.add('nav-unlocked');
-            // If user tapped hamburger while on hero, auto-open after photo settles
-            if (pendingMenuOpen) {
-                pendingMenuOpen = false;
-                setTimeout(() => {
-                    const navLinks = document.querySelector('.nav-links');
-                    const hbg = document.querySelector('.hamburger');
-                    if (hbg) hbg.classList.add('open');
-                    if (navLinks) navLinks.style.display = 'flex';
-                }, 180); // slight pause so user sees photo land first
-            }
+        if (!wasUnlocked && pendingMenuOpen) {
+            pendingMenuOpen = false;
+            setTimeout(openMenu, 160);
         }
     } else {
         profileImg.onclick = null;
         profileImg.style.cursor = 'default';
         document.body.classList.remove('scrolled');
-        // Lock hamburger — user scrolled back to hero
-        if (navUnlocked) {
-            navUnlocked = false;
-            const navLinks = document.querySelector('.nav-links');
-            hamburger && hamburger.classList.remove('open', 'nav-unlocked');
-            hamburger && hamburger.classList.add('nav-locked');
-            if (navLinks) navLinks.style.display = 'none';
-        }
+        if (wasUnlocked && menuOpen) closeMenu();
     }
 
     rafId = requestAnimationFrame(animateImg);
@@ -284,12 +272,11 @@ function animateImg() {
 animateImg();
 
 window.addEventListener('scroll', () => {
-    // Top button
+
     if (topBtn) {
         topBtn.style.display = document.documentElement.scrollTop > 300 ? 'block' : 'none';
     }
 
-    // Active nav highlight
     let current = '';
     sections.forEach(section => {
         if (window.pageYOffset >= section.offsetTop - 150) {
@@ -297,9 +284,11 @@ window.addEventListener('scroll', () => {
         }
     });
     navLi.forEach(a => {
-        a.style.color = a.getAttribute('href') === `#${current}`
+        const isCurrent = a.getAttribute('href') === `#${current}`;
+        a.style.color = isCurrent
             ? 'var(--text-main)'
             : 'var(--text-muted)';
+        a.classList.toggle('active', isCurrent);
     });
 });
 
@@ -331,15 +320,5 @@ navItems.forEach(item => {
     item.addEventListener('click', function() {
         navItems.forEach(i => i.classList.remove('active'));
         this.classList.add('active');
-    });
-});
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        const navLinks = document.querySelector('.nav-links');
-        const hamburger = document.querySelector('.hamburger');
-        if (navLinks && window.innerWidth <= 768) {
-            navLinks.style.display = 'none';
-            hamburger && hamburger.classList.remove('open');
-        }
     });
 });
